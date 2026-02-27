@@ -56,6 +56,21 @@ def send_stats(message):
         bot.send_message(message.chat.id, stats_message)
         logging.info(f"Пользователь {message.from_user.first_name} (ID: {message.from_user.id}) запросил статистику.")
 
+@bot.message_handler(commands=['instruction'])
+def show_photos(message):
+    bot.send_message(message.chat.id, "Вот инструкция по получению промокода:")
+    # Список URL фотографий
+    photo_urls = [
+        'https://image2url.com/r2/default/images/1772221065782-c154ddaf-48ba-4379-b338-99a71884f869.jpg',
+        'https://image2url.com/r2/default/images/1772221096356-a0ba5cff-0e3b-4f86-9b78-64b2a1d022d8.jpg',
+        'https://image2url.com/r2/default/images/1772221138101-2c8f8b06-b620-4b06-8226-c858520d8848.jpg',
+        'https://image2url.com/r2/default/images/1772221171101-4539506c-d7ac-4eb6-8a52-5def046eac42.jpg',
+        'https://image2url.com/r2/default/images/1772221187266-7abfa8fa-9a01-49f9-8159-49d664bb068d.jpg'
+    ]
+    
+    for photo_url in photo_urls:
+        bot.send_photo(message.chat.id, photo_url)
+
 @bot.callback_query_handler(func=lambda call: call.data == 'submit_promocode')
 def handle_submit_promocode(call):
     bot.send_message(call.message.chat.id, "Отправьте мне ваш промокод.")
@@ -64,7 +79,7 @@ def handle_submit_promocode(call):
 
 @bot.callback_query_handler(func=lambda call: call.data == 'price')
 def handle_price(call):
-    bot.send_message(call.message.chat.id, "Промокод: скидка на первый заказ Самокат 500\n" \
+    bot.send_message(call.message.chat.id, "Промокод: скидка на первый заказ Самокат 500(есть почти у каждого)\n" \
     "Прайс: ")  # Замените текст на нужный
     logging.info(f"Пользователь {call.from_user.first_name} (ID: {call.from_user.id}) запросил прайс.")
 
